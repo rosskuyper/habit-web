@@ -15,13 +15,13 @@ module "s3_cdn_habit_web" {
 resource "aws_ssm_parameter" "web_cdn_bucket_name" {
   name      = "/${local.service_name}/web_cdn_bucket_name"
   type      = "String"
-  value     = s3_cdn_habit_web.s3_bucket_name
+  value     = module.s3_cdn_habit_web.s3_bucket_name
   overwrite = "true"
 }
 
 resource "aws_ssm_parameter" "web_cdn_distribution_id" {
   name      = "/${local.service_name}/cloudfront_id"
   type      = "String"
-  value     = s3_cdn_habit_web.cloudfront_id
+  value     = module.s3_cdn_habit_web.cloudfront_id
   overwrite = "true"
 }
