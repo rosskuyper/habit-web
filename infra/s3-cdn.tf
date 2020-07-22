@@ -3,7 +3,6 @@ module "s3_cdn_habit_web" {
 
   name = local.service_name
 
-  s3_kms_key_id   = data.aws_kms_key.s3.arn
   zone_id         = data.aws_route53_zone.habitualizer_com.zone_id
   certificate_arn = data.terraform_remote_state.environment.outputs.habitualizer_com_acm_arn
   domain_names = [
