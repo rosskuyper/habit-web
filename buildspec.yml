@@ -20,19 +20,19 @@ phases:
 
   pre_build:
     commands:
-      - echo $CDN_S3_BUCKET_NAME
-      - echo $CDN_DISTRIBUTION_ID
       - yarn install
       - cd "$CODEBUILD_SRC_DIR/infra"
       - terraform init
-      # - yarn eslint
 
   build:
     commands:
       - cd "$CODEBUILD_SRC_DIR"
       - yarn build
-      - terraform plan -out=main.tf.plan
-      - terraform apply -auto-approve "main.tf.plan"
-    finally:
-      - rm -f main.tf.plan
+      - cd "$CODEBUILD_SRC_DIR/infra"
+      - terraform plan -out="$CODEBUILD_SRC_DIR/infra/main.tf.plan"
+      - terraform apply -auto-approve "$CODEBUILD_SRC_DIR/infra/main.tf.plan"
       - cd "$CODEBUILD_SRC_DIR"
+      - aws s3 cp --recursive "./build/" "s3://$CDN_S3_BUCKET_NAME/"
+      - aws cloudfront create-invalidation --distribution-id $CDN_DISTRIBUTION_ID --invalidation-batch "Paths={Quantity=1,Items=[/*]},CallerReference=$(date +%s)"
+    finally:
+      - rm -f "$CODEBUILD_SRC_DIR/infra/main.tf.plan"
