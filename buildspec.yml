@@ -4,6 +4,7 @@ version: 0.2
 env:
   variables:
     NODE_ENV: "production"
+    REACT_APP_API_URL: "https://api.habitualizer.com/graphql"
   parameter-store:
     CDN_S3_BUCKET_NAME: "/habit-web/web_cdn_bucket_name"
     CDN_DISTRIBUTION_ID: "/habit-web/cloudfront_id"
