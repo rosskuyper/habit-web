@@ -10,6 +10,8 @@ const GET_ME = gql`
       user {
         sub
         email
+        first
+        last
       }
     }
   }
