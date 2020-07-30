@@ -7,8 +7,10 @@ import {gql, useQuery} from '@apollo/client'
 const GET_ME = gql`
   query {
     me {
-      sub
-      email
+      user {
+        sub
+        email
+      }
     }
   }
 `
