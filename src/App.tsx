@@ -1,25 +1,20 @@
 import React from 'react'
-import {gql, useQuery} from '@apollo/client'
 import Loading from './components/Loading/Loading'
-import UserSection from './sections/UserSection'
+import {useAuth} from './hooks/useAuth'
 import PublicSection from './sections/PublicSection'
-
-const SIGNED_IN = gql`
-  query {
-    signedIn
-  }
-`
+import UserSection from './sections/UserSection'
 
 const App = () => {
-  const {data, loading} = useQuery(SIGNED_IN)
+  const {user} = useAuth()
 
-  if (loading) {
+  // If we're still loading
+  if (user === undefined) {
     return <Loading />
   }
 
-  console.log('*****************RENDERING MAIN APP****************', data.signedIn)
+  console.log('*****************RENDERING MAIN APP****************', user)
 
-  return data.signedIn ? <UserSection /> : <PublicSection />
+  return user ? <UserSection /> : <PublicSection />
 }
 
 export default App

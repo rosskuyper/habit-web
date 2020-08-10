@@ -1,7 +1,9 @@
+import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client'
+import {ProvideAuth} from './hooks/useAuth'
 import './index.css'
 
 const client = new ApolloClient({
@@ -12,7 +14,10 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <CssBaseline />
+    <ProvideAuth>
+      <App />
+    </ProvideAuth>
   </ApolloProvider>,
   document.getElementById('root'),
 )
