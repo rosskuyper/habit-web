@@ -1,45 +1,25 @@
 import React from 'react'
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
-import SignIn from './pages/SignIn/SignIn'
-import OAuthCallback from './pages/OAuth/Callback'
 import {gql, useQuery} from '@apollo/client'
+import Loading from './components/Loading/Loading'
+import UserSection from './sections/UserSection'
+import PublicSection from './sections/PublicSection'
 
-const GET_ME = gql`
+const SIGNED_IN = gql`
   query {
-    me {
-      user {
-        sub
-        email
-        first
-        last
-      }
-    }
+    signedIn
   }
 `
 
 const App = () => {
-  const {data} = useQuery(GET_ME)
+  const {data, loading} = useQuery(SIGNED_IN)
 
-  console.log('data', data)
+  if (loading) {
+    return <Loading />
+  }
 
-  return (
-    <Router>
-      <Switch>
-        <Route path="/signin">
-          <SignIn />
-        </Route>
-        <Route path="/oauth/callback">
-          <OAuthCallback />
-        </Route>
+  console.log('*****************RENDERING MAIN APP****************', data.signedIn)
 
-        <Route path="/">
-          <div>
-            <Link to="/signin">Sign in</Link>
-          </div>
-        </Route>
-      </Switch>
-    </Router>
-  )
+  return data.signedIn ? <UserSection /> : <PublicSection />
 }
 
 export default App
