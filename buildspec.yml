@@ -15,8 +15,8 @@ phases:
     runtime-versions:
       nodejs: 12
     commands:
-      - curl -OLs https://releases.hashicorp.com/terraform/0.13.0/terraform_0.13.0_linux_amd64.zip
-      - unzip -qq terraform_0.13.0-beta3_linux_amd64.zip
+      - curl -Ls https://releases.hashicorp.com/terraform/0.13.0/terraform_0.13.0_linux_amd64.zip -o terraform.zip
+      - unzip -qq terraform.zip
       - mv terraform /usr/local/bin/terraform
       - chmod a+x /usr/local/bin/terraform
       - echo "//npm.pkg.github.com/:_authToken=$GITHUB_PACKAGES_TOKEN" > ~/.npmrc
